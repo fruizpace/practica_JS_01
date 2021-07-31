@@ -54,7 +54,7 @@ export default class Liga {
         let result = [];
         
         for(let j=0; j < 2; j++) { 
-            var index = Math.floor(Math.random() * array.length); // selección al azar
+            let index = Math.floor(Math.random() * array.length); // selección al azar
             const team = array[index]; 
             array.splice(index, 1); // una vez elegido, se elimina de la lista
             result.push(team); // guarda los equipos en un array
@@ -83,21 +83,20 @@ export default class Liga {
         }
     
         // ¿quién tiene más goles? ordenar de mayor a menor y seleccionar el primer elemento.
-        var tmp = Object.keys(partido).sort(function(a, b){return partido[b]-partido[a]});
+        let tmp = Object.keys(partido).sort(function(a, b){return partido[b]-partido[a]});
         partido.winner = tmp[0];
     
         return partido;
     }
 
-    showResults(array){ // [[pais3, pais6], [pais2, pais1], [pais4, pais9], etc..]
+    showResults(array, nota=[]){ // [[pais3, pais6], [pais2, pais1], [pais4, pais9], etc..]
         let winners = [];
-        var q=1;
-    
+        
         for (let i in array) {
             const match = array[i];
             let partidoJugado = this.jugar(match); // obtenemos {team1:, team2:, winner:}
 
-            partidoJugado["winnerQ"] = "Q" + q++;;
+            partidoJugado["winnerQ"] = nota[i];
             winners.push(partidoJugado.winner); // añado los ganadores al array vacío
             console.log(
                 Object.keys(partidoJugado)[0] + " " + Object.values(partidoJugado)[0] + " - " + 
@@ -116,11 +115,11 @@ export default class Liga {
         for (let i = 0; i < n_partidos; i++) {
             let result = [];
           // seleccionamos primero-último:
-            var index1 = 0;
+            let index1 = 0;
             const team1 = array[index1]; 
             array.splice(index1, 1); 
             
-            var index2 = array.length-1;
+            let index2 = array.length-1;
             const team2 = array[index2];
             array.splice(index2, 1);
             
@@ -165,10 +164,10 @@ export default class Liga {
         let first = arrayWinners[1];
         let second = arrayFinales[1].filter(item => {return first.indexOf(item) === -1;}); // de [finales] filtro el perdedor (segundo puesto)   
         console.log(`\n-- Resultado --`);
-        console.log(`Cuarto puesto: ${fourth}`);
-        console.log(`Tercer puesto: ${third}`);
-        console.log(`Segundo puesto: ${second}`);
-        console.log(`Primer puesto: ${first}`);
+        console.log(`4) Cuarto puesto: ${fourth}`);
+        console.log(`3) Tercer puesto: ${third}`);
+        console.log(`2) Segundo puesto: ${second}`);
+        console.log(`1) Primer puesto: ${first}`);
     
         console.log(`\n==============================================`);
         console.log(`¡${arrayWinners[1].toUpperCase()} campeona de ${this.name}!`);
@@ -179,19 +178,19 @@ export default class Liga {
         this.welcome();
     
         let octavos = this.matchOctavos(this.misEquipos, "Octavos de final");
-        let winnnersOctavos = this.showResults(octavos);
+        let winnnersOctavos = this.showResults(octavos,  ['Q1', 'Q2', 'Q3', 'Q4', 'Q5', 'Q6', 'Q7', 'Q8']);
     
         let cuartos = this.matchCuartos(winnnersOctavos, "Cuartos de final");
-        let winnnersCuartos = this.showResults(cuartos);
+        let winnnersCuartos = this.showResults(cuartos, ['Q1-Q8', 'Q2-Q7', 'Q3-6', 'Q4-Q5']);
     
         let semifinal = this.matchSemi(winnnersCuartos, "Semifinales");
-        let winnnersSemi = this.showResults(semifinal);
+        let winnnersSemi = this.showResults(semifinal,  ['Ganador Q1-Q8 vs Ganador Q3-6', 'Ganador Q2-Q7 vs Ganador Q4-Q5']);
     
         let finales = this.matchFinal(winnnersCuartos, winnnersSemi, 'Finales');
-        let winnnersFinal = this.showResults(finales);
+        let winnnersFinal = this.showResults(finales, ["Ganador: 3er puesto", "Ganador: 1er puesto"]);
         this.panelResultadoFinal(finales, winnnersFinal);
     
-        console.log(`\n ¡Gracias por participar! \n`);
+        console.log(`\nGracias por participar.\n`);
         console.log(`( ) ( )\n(>•.•<) \n(") (")O`);
     }
 }
