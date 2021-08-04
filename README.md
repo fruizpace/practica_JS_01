@@ -7,7 +7,7 @@ Presenta en pantalla los cuatro primeros puestos e indica quién fue el equipo v
 1. Indica el nombre de la liga y proporciona una lista con más de 16 equipos: `const name = new Liga('texto', lista);`. Por ejemplo,  `const ligaEuropea = new Liga('Eurocopa', paises);`
 2. Ejecutar: `ligaEuropea.letsPlay();` en el archivo index.js
 
-## ¿No funciona?
+### ¿No funciona?
 ¿Has generado el archivo package.json? Seguramente lo necesites para que el programa reconozca los "imports" del código y se ejecute correctamente.
 1. Ejecuta en la terminal de tu IDE: `npm init --y`.
 2. En el archivo json que se ha creado añade `"type":"module"`.
